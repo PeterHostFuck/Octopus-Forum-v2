@@ -29,4 +29,7 @@ public interface UserExtMapper {
 
     @Select(value = "select count(*) from collect where user_id=#{id}")
     Integer getCollectCount(Integer id);
+
+    @Select(value = "select integral from user_integral where user_id=#{id}")
+    Long getIntegral(Integer id);
 }

@@ -51,6 +51,47 @@
         padding: 5px;
         color: #333333;
     }
+    .fly-signin-main {
+        position: relative;
+        height: 35px;
+        padding: 20px 15px;
+        text-align: center;
+    }
+    .fly-panel-title {
+        position: relative;
+        height: 50px;
+        line-height: 50px;
+        padding: 0 15px;
+        border-bottom: 1px dotted #E9E9E9;
+        color: #333;
+        border-radius: 2px 2px 0 0;
+        font-size: 14px;
+    }
+    .fly-mid {
+        display: inline-block;
+        height: 10px;
+        width: 1px;
+        margin: 0 10px;
+        vertical-align: middle;
+        background-color: #e2e2e2;
+    }
+    .layui-btn-danger {
+        background-color: #FF5722!important;
+    }
+    .layui-btn {
+        display: inline-block;
+        height: 30px;
+        line-height: 30px;
+        padding: 0 18px;
+        background-color: #009688;
+        color: #fff;
+        white-space: nowrap;
+        text-align: center;
+        font-size: 14px;
+        border: none;
+        border-radius: 2px;
+        cursor: pointer;
+    }
 </style>
 
 <body>
@@ -173,7 +214,17 @@
 
             </div>
         </div>
-
+       <!--每日签到-->
+        <div class="container-fluid" style="margin:0px;padding:0px;background-color: #fff;">
+        <div class="fly-panel-title"> 签到<i class="fly-mid"></i>
+            <a href="javascript:;" class="fly-link" id="LAY_signinHelp">说明</a><i class="fly-mid"></i>
+            <a href="javascript:;" class="fly-link" id="LAY_signinTop">活跃榜<span class="layui-badge-dot"></span></a>
+            <span class="fly-signin-days"></span>
+        </div>
+            <div class="fly-panel-main fly-signin-main">
+                <button   class="btn  layui-btn layui-btn-danger" id="signin">今日签到</button>
+            </div>
+        </div>
         <!--热门标签-->
         <div class="hot_tag_wrapper">
             <br>
@@ -259,10 +310,36 @@
         $('.login_btn').click(function () {
             $(".login_modal").modal("show");
             return false;
+        });
+        //验证用户是否签到
+        $.get("/sigIned",{"time":new Date()},function (data) {
+            if(data.extend.sigined=="1"){
+                $("#signin").attr("disabled","disabled") ;
+            }
         })
 
 
     })
+    //签到
+    $("#signin").click(function () {
+        var btn= $(this);
+       $.get("/sigIn",{"time":new Date()},function (data) {
+          if(data.code==1000){
+              //禁用按钮的状态
+
+              btn.attr("disabled","disabled") ;
+              swal("签到成功", "获得10积分", "success",
+                  {
+                      buttons: false,
+                      timer: 2500,
+                  });
+          }else{
+              layer.msg(data.message, {time: 2000, icon: 5, shift: 6}, function () {
+              });
+          }
+       })
+    });
+
     $("#dologin_btn").click(function () {
         var username=$("#login_username").val().trim();
         var password=$("#login_password").val().trim();
@@ -281,7 +358,7 @@
                 swal("恭喜你已登入成功~", "稍作等待，正在努力跳转中~", "success",
                     {
                         buttons: false,
-                        timer: 2500,
+                        timer: 1000,
                     })
                     .then((value) => {
                     window.location.href="/";

@@ -8,6 +8,7 @@ import com.aliyuncs.exceptions.ClientException;
 import com.aliyuncs.exceptions.ServerException;
 import com.aliyuncs.http.MethodType;
 import com.aliyuncs.profile.DefaultProfile;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.Random;
@@ -15,8 +16,14 @@ import java.util.Random;
 @Component
 public class AliYunCodeProivder {
 
+    @Value("${oss.accessKeyId}")
+    private  String accessKeyId;
+
+    @Value("${oss.accessKeySecret}")
+    private  String accessKeySecret;
+
     public String sendCodeToPhone(String phone){
-        DefaultProfile profile = DefaultProfile.getProfile("cn-hangzhou", "LTAI6EW8bTwlXoZD", "p0zpokgzi3LrIuEu82lxYx0jNo5OLU");
+        DefaultProfile profile = DefaultProfile.getProfile("cn-hangzhou", accessKeyId, accessKeySecret);
         IAcsClient client = new DefaultAcsClient(profile);
         String code = String.format("%06d", new Random().nextInt(1000000));
 

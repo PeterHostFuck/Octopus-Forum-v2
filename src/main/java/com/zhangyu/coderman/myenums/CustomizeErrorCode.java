@@ -37,7 +37,9 @@ public enum CustomizeErrorCode {
     THIS_PHONE_USED("20028","该电话号码已经被注册"),
     NAME_AND_PASSWORD_CANT_EMPTY("20029","用户名和密码不能为空" ),
     LOGIN_FAIL("20030","用户名或密码错误"),
-    USERNAME_IS_USED("20031","用户名已经被占用" );
+    USERNAME_IS_USED("20031","用户名已经被占用" ),
+    USER_ID_EMPTY("20032","用户ID不能为空"),
+    ALREADY_SIGIN("20033","今天已经签到");
     private String message;
 
     private String code;

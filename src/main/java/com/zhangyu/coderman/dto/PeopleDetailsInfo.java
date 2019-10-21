@@ -9,6 +9,17 @@ public class PeopleDetailsInfo {
     //我关注的人数
     private Integer followCount;
 
+    //我的积分
+    private long integral;
+
+    public long getIntegral() {
+        return integral;
+    }
+
+    public void setIntegral(long integral) {
+        this.integral = integral;
+    }
+
     private Integer collectCount;
 
     public Integer getCollectCount() {

@@ -1,6 +1,7 @@
 package com.zhangyu.coderman.service;
 
 import com.zhangyu.coderman.dto.NewUserDTO;
+import com.zhangyu.coderman.dto.ResultTypeDTO;
 import com.zhangyu.coderman.modal.User;
 import org.springframework.stereotype.Service;
 
@@ -20,4 +21,8 @@ public interface UserService {
     List<User> getFollowList( User user);
 
     List<User> getFansList(User user);
+
+    ResultTypeDTO signIn(Integer id);
+
+    boolean isSigined(Integer id);
 }

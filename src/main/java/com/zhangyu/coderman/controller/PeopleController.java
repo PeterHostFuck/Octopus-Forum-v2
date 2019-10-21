@@ -2,6 +2,7 @@ package com.zhangyu.coderman.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.zhangyu.coderman.dao.FollowMapper;
+import com.zhangyu.coderman.dao.UserExtMapper;
 import com.zhangyu.coderman.dao.UserMapper;
 import com.zhangyu.coderman.dto.ResultTypeDTO;
 import com.zhangyu.coderman.exception.CustomizeException;
@@ -29,7 +30,8 @@ public class PeopleController {
     @Autowired
     private QuestionService questionService;
 
-
+    @Autowired
+    private UserExtMapper userExtMapper;
 
     @Autowired
     private UserService userService;
@@ -60,11 +62,17 @@ public class PeopleController {
         }
         //他关注的人
         List<User> followList = userService.getFollowList(user);
+        //他的积分
+        Long integral = userExtMapper.getIntegral(Integer.parseInt(id));
+        if(integral==null){
+            integral=(long)0;
+        }
         //他的粉丝
        List<User> fansList=userService.getFansList(user);
         map.put("userList",followList);
         map.put("fansList",fansList);
         map.put("id",i);
+        map.put("integral",integral);
         map.put("people",user);
         map.put("page",myquestionPageInfo);
         return "people";
